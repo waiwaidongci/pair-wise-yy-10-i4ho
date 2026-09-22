@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>漆线雕阴干室交接簿</title>
+  <style>
+    :root {
+      --bg: #eef3f0; --panel: #ffffff; --ink: #1e2624; --muted: #62706b;
+      --line: #ccd8d2; --teal: #1f6b68; --red: #a43f42; --amber: #aa7a24; --violet: #665c93;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
+    header { padding: 20px 26px 14px; border-bottom: 1px solid var(--line); background: #fbfdfb; display: flex; justify-content: space-between; gap: 16px; align-items: end; flex-wrap: wrap; }
+    h1 { margin: 0; font-size: 24px; }
+    h2 { margin: 0 0 4px; font-size: 16px; }
+    .sub, .meta { color: var(--muted); font-size: 12.5px; line-height: 1.55; }
+    main { padding: 18px 26px 36px; display: grid; gap: 16px; }
+    button, input, select { font: inherit; border-radius: 6px; }
+    input, select { width: 100%; border: 1px solid var(--line); padding: 7px 8px; background: #fff; color: var(--ink); }
+    button { border: 0; background: var(--teal); color: #fff; padding: 8px 11px; cursor: pointer; min-height: 34px; }
+    button.secondary { background: #5d6764; }
+    button.warn { background: var(--amber); }
+    button.danger { background: var(--red); }
+    button.violet { background: var(--violet); }
+    button.ghost { background: #fff; color: var(--red); border: 1px solid var(--red); min-height: auto; padding: 4px 9px; }
+    label { display: grid; gap: 4px; font-size: 11.5px; color: var(--muted); }
+    a { color: var(--teal); }
+    .panel { background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 13px 14px; }
+    .blocktag { font-size: 11px; letter-spacing: 2px; color: var(--muted); border: 1px solid var(--line); border-radius: 999px; padding: 1px 9px; margin-left: 8px; vertical-align: middle; }
+    .form-grid { display: grid; grid-template-columns: 380px 1fr; gap: 16px; align-items: start; }
+    form { display: grid; gap: 10px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }
+    .row { display: grid; grid-template-columns: repeat(7, minmax(86px, 1fr)) auto; gap: 7px; align-items: end; padding: 8px; border: 1px dashed var(--line); border-radius: 8px; margin-bottom: 8px; background: #fbfdfb; }
+    .banner { display: none; border-radius: 8px; padding: 10px 13px; font-size: 13px; line-height: 1.6; border: 1px solid; }
+    .banner.ok { background: #eef7f1; border-color: #9ec7ab; color: #215c35; }
+    .banner.bad { background: #fbeeef; border-color: #d39a9c; color: #7d2f32; }
+    .chipbar { display: flex; flex-wrap: wrap; gap: 8px; }
+    .chip { font-size: 12.5px; border: 1px solid var(--line); background: #f5f8f6; border-radius: 999px; padding: 4px 11px; }
+    .chip.red { border-color: #d39a9c; } .chip.amber { border-color: #d8bd7e; } .chip.violet { border-color: #b6aed6; }
+    .consistency { font-size: 12.5px; padding: 4px 0; }
+    .consistency.ok { color: #215c35; } .consistency.bad { color: var(--red); }
+    .todos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .col { background: #f9fbf9; border: 1px solid var(--line); border-radius: 8px; padding: 10px; min-height: 160px; }
+    .col h3 { margin: 0 0 9px; font-size: 14px; display: flex; justify-content: space-between; }
+    .card { border: 1px solid #d7e0dc; border-left: 4px solid var(--teal); background: #fff; border-radius: 7px; padding: 9px 10px; margin-bottom: 9px; }
+    .card.v-recheck { border-left-color: var(--red); }
+    .card.v-drying { border-left-color: var(--amber); }
+    .card.v-ready { border-left-color: var(--violet); }
+    .card-head { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; margin-bottom: 5px; }
+    .tag { font-size: 11px; border-radius: 999px; padding: 1px 8px; border: 1px solid var(--line); color: var(--muted); }
+    .tag.red { color: #fff; background: var(--red); border-color: var(--red); }
+    .tag.amber { color: #fff; background: var(--amber); border-color: var(--amber); }
+    .tag.violet { color: #fff; background: var(--violet); border-color: var(--violet); }
+    .reasons { font-size: 12px; margin-top: 6px; color: var(--amber); }
+    .reasons.red { color: var(--red); } .reasons.ok { color: var(--violet); }
+    .red { color: var(--red); font-weight: 600; }
+    .actions { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .actions button { flex: 1; min-width: 80px; font-size: 12px; padding: 6px 7px; }
+    table.msr { width: 100%; border-collapse: collapse; font-size: 11.5px; margin-top: 6px; }
+    table.msr th, table.msr td { border: 1px solid #e2e9e5; padding: 3px 5px; text-align: left; }
+    table.msr th { background: #f3f7f5; font-weight: 600; }
+    tr.ignored td { color: #9aa6a1; text-decoration: line-through; }
+    .empty { color: var(--muted); font-size: 12.5px; padding: 7px 2px; }
+    .goldline, .orderline { font-size: 12.5px; padding: 5px 0; border-bottom: 1px dotted var(--line); }
+    .archive { font-size: 12.5px; padding: 6px 0; border-bottom: 1px dotted var(--line); }
+    .archive summary { cursor: pointer; }
+    code { background: #eef2f0; padding: 0 5px; border-radius: 4px; }
+    dialog { border: 1px solid var(--line); border-radius: 8px; width: min(560px, calc(100vw - 24px)); padding: 0; }
+    dialog::backdrop { background: rgba(0,0,0,0.3); }
+    .dialog-body { padding: 16px; display: grid; gap: 11px; }
+    .dialog-actions { display: flex; justify-content: flex-end; gap: 8px; }
+    .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 1080px) {
+      .form-grid, .todos, .twocol { grid-template-columns: 1fr; }
+      .row { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div>
+      <h1>漆线雕阴干室交接簿
+        <span class="blocktag">页面块</span>
+      </h1>
+      <div class="sub">沿用 <a href="index.html">工坊看板</a> 当前作品 · 入柜登记 → 待复检/续干 → 上金粉 · 规则判定与存档分离</div>
+    </div>
+    <div style="display:flex; gap:8px; flex-wrap:wrap;">
+      <button id="syncBtn" class="warn">同步作品变更</button>
+      <button id="reloadBtn" class="secondary">重载校验</button>
+      <button id="exportBtn" class="secondary">导出 JSON</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="chipbar panel" id="chipBar"></div>
+    <div class="consistency ok" id="consistency"></div>
+    <div class="banner" id="banner"></div>
+
+    <section class="form-grid">
+      <form id="orderForm" class="panel">
+        <h2>整单投递入柜<span class="blocktag">存档块：原子写入</span></h2>
+        <div class="grid2">
+          <label>交接责任人<input name="person" required placeholder="如：陈师傅"></label>
+          <label>投递令牌（重复投递读回原单）<input name="token" required></label>
+        </div>
+        <label>整单备注<input name="note" placeholder="可选"></label>
+        <div>
+          <div id="draftRows"></div>
+          <button type="button" id="addRow" class="secondary">＋ 再加一条</button>
+        </div>
+        <button type="submit">整单投递</button>
+        <div class="meta">
+          柜位时段重叠只绑一件；任一冲突则整单退回、不留残单。<br>
+          温湿度允许区间 18–28℃ / 50–75%；越界或缺初重的条目只列待复检，不连累同单其他条目。
+        </div>
+      </form>
+
+      <section class="panel">
+        <h2>待办<span class="blocktag">判定块：DryingRules</span></h2>
+        <div class="todos">
+          <div class="col"><h3>待复检 <span id="cRecheck"></span></h3><div id="todoRecheck"></div></div>
+          <div class="col"><h3>续干中 <span id="cDrying"></span></h3><div id="todoDrying"></div></div>
+          <div class="col"><h3>可上金粉 <span id="cReady"></span></h3><div id="todoReady"></div></div>
+        </div>
+        <div class="meta" style="margin-top:8px;">
+          上金粉须同时满足：复检换人（非入柜责任人）· 两次复检隔满 24 小时 · 连续两次失重比例同档（A&lt;1%，B 1–3%，C 3–5%，D≥5%）。任一不满足即续干。
+        </div>
+      </section>
+    </section>
+
+    <section class="panel">
+      <h2>在柜条目总列表<span class="blocktag">与待办同源推导</span></h2>
+      <div id="activeList"></div>
+    </section>
+
+    <section class="twocol">
+      <section class="panel">
+        <h2>已上金粉</h2>
+        <div id="goldList"></div>
+        <h2 style="margin-top:14px;">交接单流水</h2>
+        <div id="orderList"></div>
+      </section>
+      <section class="panel">
+        <h2>留档（旧条目不删）<span class="blocktag">变更即留档重算</span></h2>
+        <div id="archiveList"></div>
+      </section>
+    </section>
+  </main>
+
+  <dialog id="opDialog">
+    <div class="dialog-body">
+      <h2 id="opTitle">操作</h2>
+      <div id="opBody"></div>
+      <div class="dialog-actions">
+        <button id="opCancel" class="secondary" type="button">取消</button>
+        <button id="opSubmit" type="button">确认</button>
+      </div>
+    </div>
+  </dialog>
+
+  <script src="rules.js"></script>
+  <script src="store.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
